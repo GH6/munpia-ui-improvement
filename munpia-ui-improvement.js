@@ -5,11 +5,18 @@
 // @description  Munpia에서 선호작 목록 페이지를 브라우저 좌측에 상시 표시하고, 페이지 요소들은 30px 이동. Iframe은 고정되어 움직이지 않음. 링크는 새탭에서 열림.
 // @match        https://*.munpia.com/*
 // @exclude      https://novel.munpia.com/page/novelous/group/subscribe
+// @exclude      https://novel.munpia.com/*/page/*  // 여기에서 작동하지 않도록 추가
 // @grant        none
 // ==/UserScript==
 
 (function() {
     'use strict';
+
+    // 현재 URL을 확인하여 특정 주소에서는 동작하지 않도록
+    const currentUrl = window.location.href;
+    if (/https:\/\/novel\.munpia\.com\/\d+\/page\//.test(currentUrl)) {
+        return; // 이 주소 패턴에서는 스크립트를 실행하지 않음
+    }
 
     // 첫 번째 기능: 페이지의 모든 요소를 30px 오른쪽으로 이동
     const adjustPageRight = () => {
